@@ -1,161 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-<<<<<<< HEAD
+
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container_fragment"
-=======
-    xmlns:tools="http://schemas.android.com/apk/tools"
-    android:id="@+id/Layout"
->>>>>>> master
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/bg"
-    tools:context=".MainActivity"
-    android:background="@drawable/bg">
+    tools:context=".MainActivity">
 
-<<<<<<< HEAD
-</androidx.constraintlayout.widget.ConstraintLayout>
-=======
-    <TextView
-        android:id="@+id/textcity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Thành Phố"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="150dp"
-        />
-    <LinearLayout
-        android:id="@+id/tvthoigian"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="389dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="200dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/img_icon"
-            android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:src="@drawable/nang" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:id="@+id/text_nhietdo"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Nhiệt Độ"
-                android:textColor="@android:color/black"
-                android:textSize="30dp" />
-
-
-            <TextView
-                android:id="@+id/text_trangthai"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Thời Tiết"
-                android:textColor="@android:color/black"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="110dp"
-                android:layout_height="48dp"
-                android:src="@drawable/drop" />
-
-            <ImageView
-                android:layout_weight="2"
-                android:layout_width="110dp"
-                android:layout_height="48dp"
-                android:src="@drawable/nang" />
-
-            <ImageView
-                android:layout_weight="3"
-                android:layout_width="110dp"
-                android:layout_height="48dp"
-                android:src="@drawable/tuyet" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <TextView
-                android:layout_weight="1"
-                android:id="@+id/text_doam"
-                android:layout_width="110dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="Độ Ẩm"
-                android:textColor="@android:color/background_dark"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_weight="2"
-                android:id="@+id/text_may"
-                android:layout_width="110dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="Mây"
-                android:textColor="@android:color/background_dark"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_weight="3"
-                android:id="@+id/text_gio"
-                android:layout_width="110dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="Gió"
-                android:textColor="@android:color/background_dark"
-                android:textSize="20sp" />
-
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/text_thoigian"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_height="20dp"
-            android:text="Thời gian cập nhật"
-            android:textSize="15sp" />
-
-
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/weather_nav"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="184dp" />
 
 </RelativeLayout>
->>>>>>> master
+
