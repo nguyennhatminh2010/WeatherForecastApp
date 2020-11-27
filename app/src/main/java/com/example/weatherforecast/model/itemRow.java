@@ -1,4 +1,4 @@
-package com.example.weatherforecast;
+package com.example.weatherforecast.model;
 
 public class itemRow {
     private String day, hour, humidity, temperature, realFeel, droplets;

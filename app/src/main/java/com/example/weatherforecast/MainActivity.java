@@ -13,13 +13,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
+
         setContentView(R.layout.activity_main);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_fragment, HomeFragment.newInstance(), HomeFragment.class.getSimpleName())
-                .commit();
-=======
-        setContentView(R.layout.fragment_detail);
->>>>>>> master
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.container_fragment, HomeFragment.newInstance(), HomeFragment.class.getSimpleName())
+//                .commit();
+//
+//        setContentView(R.layout.fragment_detail);
+
     }
 }

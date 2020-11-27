@@ -1,4 +1,4 @@
-package com.example.weatherforecast;
+package com.example.weatherforecast.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.weatherforecast.R;
+import com.example.weatherforecast.model.itemRow;
 
 import java.util.ArrayList;
 
@@ -42,7 +45,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
