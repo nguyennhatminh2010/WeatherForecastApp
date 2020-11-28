@@ -1,10 +1,15 @@
 package com.example.weatherforecast.model;
 
-public class itemRow {
-    private String day, hour, humidity, temperature, realFeel, droplets;
+public class ItemRow {
+    private String day;
+    private String hour;
+    private String humidity;
+    private String temperature;
+    private String realFeel;
+    private String droplets;
     private int drop;
 
-    public itemRow(String day, String hour, String humidity, String temperature, String realFeel, String droplets, int drop) {
+    public ItemRow(String day, String hour, String humidity, String temperature, String realFeel, String droplets, int drop) {
         this.day = day;
         this.hour = hour;
         this.humidity = humidity;

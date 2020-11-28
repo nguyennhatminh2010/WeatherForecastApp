@@ -1,6 +1,7 @@
 package com.example.weatherforecast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.container_fragment, HomeFragment.newInstance(), HomeFragment.class.getSimpleName())
 //                .commit();
-//
-//        setContentView(R.layout.fragment_detail);
+
 
     }
 }

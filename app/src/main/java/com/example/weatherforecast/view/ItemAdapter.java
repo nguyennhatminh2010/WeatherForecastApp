@@ -11,15 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherforecast.R;
-import com.example.weatherforecast.model.itemRow;
+import com.example.weatherforecast.model.ItemRow;
 
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-    ArrayList<itemRow> items;
+    ArrayList<ItemRow> items;
     Context context;
 
-    public ItemAdapter(ArrayList<itemRow> items, Context context) {
+    public ItemAdapter(ArrayList<ItemRow> items, Context context) {
         this.items = items;
         this.context = context;
     }
@@ -36,16 +36,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtHour.setText(items.get(position).getHour());
         holder.txtDay.setText(items.get(position).getDay());
-        holder.txtTemperature.setText(items.get(position).getTemperature());
+        double nhietdo = Double.parseDouble(items.get(position).getTemperature()) - 273.15;
+        holder.txtTemperature.setText((int)nhietdo + "");
         holder.txtRealFeel.setText(items.get(position).getRealFeel());
         holder.txtHumidity.setText(items.get(position).getHumidity());
         holder.txtDroplets.setText(items.get(position).getDroplets());
-        holder.imgDrop.setImageResource(items.get(position).getDrop());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
