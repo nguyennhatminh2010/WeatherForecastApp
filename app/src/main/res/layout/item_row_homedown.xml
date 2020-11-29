@@ -7,14 +7,15 @@
     android:layout_marginBottom="5dp"
     android:background="#FBFBFB"
     android:paddingTop="15dp"
-    android:paddingBottom="15dp">
+    android:paddingBottom="15dp"
+    android:id="@+id/item_layout">
 
     <TextView
-        android:id="@+id/textView_Hour"
+        android:id="@+id/textView_Day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="11"
+        android:text="11:00:00"
         android:textColor="#1B1717"
         android:textSize="16dp"
         android:textStyle="bold"
@@ -24,24 +25,24 @@
         app:layout_constraintVertical_bias="0.022" />
 
     <TextView
-        android:id="@+id/textView_Day"
+        android:id="@+id/textView_Hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="26/11"
+        android:text="2020-11-29"
         android:textColor="#F04E4444"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_Hour" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_Day" />
 
     <TextView
-        android:id="@+id/textView_Temperature"
+        android:id="@+id/icon_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="260dp"
-        android:text="27°"
+        android:layout_marginEnd="245dp"
+        android:text="°C"
         android:textColor="#3C3F41"
         android:textSize="26dp"
         android:textStyle="bold"
@@ -49,14 +50,39 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView_Temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="272dp"
+        android:text="27"
+        android:textColor="#3C3F41"
+        android:textSize="26dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="RealFeel®"
+        android:textColor="#F04E4444"
+        app:layout_constraintStart_toEndOf="@+id/icon_temp"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <TextView
         android:id="@+id/textView_Realfeel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="84dp"
         android:layout_marginTop="16dp"
-        android:text="RealFeel® 30º"
+        android:text="30º"
         android:textColor="#F04E4444"
-        app:layout_constraintStart_toEndOf="@+id/textView_Temperature"
+        app:layout_constraintStart_toEndOf="@+id/icon_temp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
