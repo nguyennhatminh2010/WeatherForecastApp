@@ -2,6 +2,7 @@ package com.example.weatherforecast.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ListItem item = items.get(position);
-        holder.txtHour.setText(item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")));
-        holder.txtDay.setText(item.getDtTxt().substring(item.getDtTxt().indexOf(" ")));
-        double nhietdo = item.getMain().getTemp() - 273.15;
-        holder.txtTemperature.setText((int)nhietdo + "");
+        String day = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(8,10).concat("/");
+        String month = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(5,7);
+        String hour  = item.getDtTxt().substring(item.getDtTxt().indexOf(" ")).substring(0,3).concat("h");
+        holder.txtHour.setText(hour);
+        holder.txtDay.setText(day.concat(month));
+        double temperature = item.getMain().getTemp() - 273.15;
+        holder.txtTemperature.setText((int)temperature + "");
         holder.txtRealFeel.setText((int)(item.getMain().getFeelsLike() - 273.15)+ "");
         holder.txtHumidity.setText(item.getMain().getHumidity() + "");
     }
@@ -57,13 +61,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         ConstraintLayout layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtHour = itemView.findViewById(R.id.textView_Hour);
-            txtDay = itemView.findViewById(R.id.textView_Day);
-            txtHumidity = itemView.findViewById(R.id.textView_Humidity);
-            txtTemperature = itemView.findViewById(R.id.textView_Temperature);
-            txtRealFeel = itemView.findViewById(R.id.textView_Realfeel);
-            txtDroplets = itemView.findViewById(R.id.textView_Droplets);
-            imgDrop     = itemView.findViewById(R.id.imageView_Drop);
+            txtHour         = itemView.findViewById(R.id.textView_Hour);
+            txtDay          = itemView.findViewById(R.id.textView_Day);
+            txtHumidity     = itemView.findViewById(R.id.textView_Humidity);
+            txtTemperature  = itemView.findViewById(R.id.textView_Temperature);
+            txtRealFeel     = itemView.findViewById(R.id.textView_Realfeel);
+            txtDroplets     = itemView.findViewById(R.id.textView_Droplets);
+            imgDrop         = itemView.findViewById(R.id.imageView_Drop);
+
 
             layout = itemView.findViewById(R.id.item_layout);
             layout.setOnClickListener(new View.OnClickListener() {
