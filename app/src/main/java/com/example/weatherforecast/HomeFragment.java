@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -24,6 +26,7 @@ import com.example.weatherforecast.model.IdApiCall;
 import com.example.weatherforecast.model.ListItem;
 import com.example.weatherforecast.view.ItemAdapter;
 import com.example.weatherforecast.viewmodel.WeatherApiService;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -33,6 +36,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.HttpException;
@@ -44,7 +48,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
 
     private ItemAdapter itemAdapter;
-    private ArrayList<ListItem> items;
     private WeatherApiService apiService;
     private static IdApiCall mIdApiCall;
 
@@ -53,6 +56,7 @@ public class HomeFragment extends Fragment {
     LocationManager lm;
     Location location;
     private int REQUEST_LOCATION = 1;
+    private Disposable mDispose;
 
     public HomeFragment() {
         super(R.layout.fragment_home);
@@ -65,7 +69,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemAdapter = new ItemAdapter(items, getContext());
+        itemAdapter = new ItemAdapter(new ArrayList<>(), getContext());
+    }
+
+    @Override
+    public void onDestroyView() {
+        mDispose.dispose();
+        super.onDestroyView();
     }
 
     @Override
@@ -106,10 +116,9 @@ public class HomeFragment extends Fragment {
 //            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
 
 //        ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
-        items = new ArrayList<ListItem>();
         mIdApiCall = new IdApiCall();
         apiService = new WeatherApiService();
-        apiService.getAPI()
+        mDispose = apiService.getAPI()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<IdApiCall>() {
@@ -117,52 +126,22 @@ public class HomeFragment extends Fragment {
                     public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull IdApiCall idApiCall) {
                         //mIdApiCall la toan bo thong tin lay ve tu API
                         mIdApiCall = idApiCall;
-
-                        binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(),1));
-                        itemAdapter = new ItemAdapter(items,getActivity());
+                        binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+                        itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
                         onCreateHeadFragment();
                         binding.rvHours.setHasFixedSize(true);
                         binding.rvHours.setAdapter(itemAdapter);
-
-                        AsyncTask.execute(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                ListItem listItem; // bien listItem de lay du lieu cua 1 gio
-                                for(int i = 0; i < mIdApiCall.getCnt(); i++){
-                                    listItem = mIdApiCall.getListItem().get(i);
-                                    ListItem nitem = new ListItem(listItem.getDt(),
-                                            listItem.getMain(),
-                                            listItem.getWeather(),
-                                            listItem.getClouds(),
-                                            listItem.getWind(),
-                                            listItem.getVisibility(),
-                                            listItem.getPop(),
-                                            listItem.getRain(),
-                                            listItem.getSys(),
-                                            listItem.getDtTxt());
-                                    items.add(nitem);
-                                }
-
-                            }
-
-                        });
-
                         itemAdapter.notifyDataSetChanged();
-
-
                     }
 
                     @Override
                     public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
                         if (e instanceof HttpException) {
                             Log.e("Error", ((HttpException) e).message());
-                        }
-                        else if (e instanceof IOException) {
-                            Log.e("Error",e.toString());
-                        }
-                        else {
-                            Log.e("Error",e.toString());
+                        } else if (e instanceof IOException) {
+                            Log.e("Error", e.toString());
+                        } else {
+                            Log.e("Error", e.toString());
                         }
                     }
                 });
@@ -233,27 +212,46 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
 
-            return view;
+        return view;
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupAnim();
     }
 
     private void onCreateHeadFragment() {
-        DateFormat dateFormat = new SimpleDateFormat("E, HH:mm dd:MM:yyyy", new Locale("vi"));
+        DateFormat dateFormat = new SimpleDateFormat("E, HH:mm dd/MM/yyyy", new Locale("vi"));
         binding.timeTextView.setText(dateFormat.format(new Date(System.currentTimeMillis())));
-        binding.statusTextView.setText(mIdApiCall.getListItem().get(0).getWeather().get(0).getDescription() );
-        binding.iconStatusImageView.setImageResource(R.drawable.ic_rain);
+        binding.statusTextView.setText(mIdApiCall.getListItem().get(0).getWeather().get(0).getDescription());
         double nhietdo = mIdApiCall.getListItem().get(0).getMain().getTemp() - 273.15;
-        binding.temperatureTextView.setText((int)nhietdo  + "");
+        binding.temperatureTextView.setText((int) nhietdo + "");
         double nhietdoMax = mIdApiCall.getListItem().get(0).getMain().getTempMax() - 273.15;
-        binding.temperatureUpTextView.setText((int)nhietdoMax  + "");
+        binding.temperatureUpTextView.setText((int) nhietdoMax + "");
         double nhietdoMin = mIdApiCall.getListItem().get(0).getMain().getTempMin() - 273.15;
-        binding.temperatureDownTextView.setText((int)nhietdoMin  + "");
+        binding.temperatureDownTextView.setText((int) nhietdoMin + "");
+        switch (mIdApiCall.getListItem().get(0).getWeather().get(0).getMain()) {
+            case "Snow": {
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_snowy);
+                binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");
+                break;
+            }
+            case "Rain": {
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
+                binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");
+                break;
+            }
+            case "Sunny": {
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_sun);
+                binding.textView.setText("Trời nắng đấy ra đường nhớ mang nón nhé");
+                break;
+            }
+            default:
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_weather);
+                binding.textView.setText("Trời nắng đấy ra đường nhớ mang nón nhé");
+        }
     }
 
     private void setupAnim() {
@@ -266,6 +264,15 @@ public class HomeFragment extends Fragment {
         animator.setRepeatMode(ValueAnimator.REVERSE);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.start();
+        ObjectAnimator animator1 = ObjectAnimator.ofFloat(
+                binding.temperatureTextView,
+                "translationX",
+                binding.temperatureDownTextView.getX() - 10, binding.temperatureDownTextView.getX() + 10);
+        animator1.setDuration(2000);
+        animator1.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator1.setRepeatMode(ValueAnimator.REVERSE);
+        animator1.setRepeatCount(ValueAnimator.INFINITE);
+        animator1.start();
     }
 
     @Override
