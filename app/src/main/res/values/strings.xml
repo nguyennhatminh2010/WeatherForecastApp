@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="map_key" translatable="false">AIzaSyD7RVx6PKc-y935wSbWocs9okd8kKEimng</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="weather_to_day">Thời tiết hôm nay</string>

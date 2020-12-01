@@ -1,6 +1,8 @@
 package com.example.weatherforecast.view;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherforecast.R;
-import com.example.weatherforecast.model.ItemRow;
+import com.example.weatherforecast.model.ListItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-    ArrayList<ItemRow> items;
+    ArrayList<ListItem> items;
     Context context;
 
-    public ItemAdapter(ArrayList<ItemRow> items, Context context) {
+    public ItemAdapter(ArrayList<ListItem> items, Context context) {
         this.items = items;
         this.context = context;
     }
@@ -34,13 +39,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtHour.setText(items.get(position).getHour());
-        holder.txtDay.setText(items.get(position).getDay());
-        double nhietdo = Double.parseDouble(items.get(position).getTemperature()) - 273.15;
-        holder.txtTemperature.setText((int)nhietdo + "");
-        holder.txtRealFeel.setText(items.get(position).getRealFeel());
-        holder.txtHumidity.setText(items.get(position).getHumidity());
-        holder.txtDroplets.setText(items.get(position).getDroplets());
+        ListItem item = items.get(position);
+        String day = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(8,10).concat("/");
+        String month = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(5,7);
+        String hour  = item.getDtTxt().substring(item.getDtTxt().indexOf(" ")).substring(0,3).concat("h");
+        holder.txtHour.setText(hour);
+        holder.txtDay.setText(day.concat(month));
+        double temperature = item.getMain().getTemp() - 273.15;
+        holder.txtTemperature.setText((int)temperature + "");
+        holder.txtRealFeel.setText((int)(item.getMain().getFeelsLike() - 273.15)+ "");
+        holder.txtHumidity.setText(item.getMain().getHumidity() + "");
     }
 
     @Override
@@ -49,17 +57,31 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        View view;
         TextView txtHour, txtDay, txtHumidity, txtTemperature, txtRealFeel, txtDroplets;
         ImageView imgDrop;
+        ConstraintLayout layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtHour = itemView.findViewById(R.id.textView_Hour);
-            txtDay = itemView.findViewById(R.id.textView_Day);
-            txtHumidity = itemView.findViewById(R.id.textView_Humidity);
-            txtTemperature = itemView.findViewById(R.id.textView_Temperature);
-            txtRealFeel = itemView.findViewById(R.id.textView_Realfeel);
-            txtDroplets = itemView.findViewById(R.id.textView_Droplets);
-            imgDrop     = itemView.findViewById(R.id.imageView_Drop);
+            this.view = itemView;
+            txtHour         = itemView.findViewById(R.id.textView_Hour);
+            txtDay          = itemView.findViewById(R.id.textView_Day);
+            txtHumidity     = itemView.findViewById(R.id.textView_Humidity);
+            txtTemperature  = itemView.findViewById(R.id.textView_Temperature);
+            txtRealFeel     = itemView.findViewById(R.id.textView_Realfeel);
+            txtDroplets     = itemView.findViewById(R.id.textView_Droplets);
+            imgDrop         = itemView.findViewById(R.id.imageView_Drop);
+
+
+            layout = itemView.findViewById(R.id.item_layout);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", (Serializable) items.get(getAdapterPosition()));
+                    Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, bundle);
+                }
+            });
         }
     }
 }

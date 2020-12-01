@@ -3,7 +3,10 @@ package com.example.weatherforecast.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ListItem {
+import java.io.Serializable;
+import java.util.List;
+
+public class ListItem implements Serializable {
     @SerializedName("dt")
     @Expose
     private Integer dt;
@@ -51,6 +54,19 @@ public class ListItem {
     @SerializedName("dt_txt")
     @Expose
     private String dtTxt;
+
+    public ListItem(Integer dt, ItemDetailsMain main, List<Weather> weather, Clouds clouds, Wind wind, Integer visibility, Double pop, Rain rain, Sys sys, String dtTxt) {
+        this.dt = dt;
+        this.main = main;
+        this.weather = weather;
+        this.clouds = clouds;
+        this.wind = wind;
+        this.visibility = visibility;
+        this.pop = pop;
+        this.rain = rain;
+        this.sys = sys;
+        this.dtTxt = dtTxt;
+    }
 
     public Integer getDt() {
         return dt;
