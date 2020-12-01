@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatherforecast.R;
 import com.example.weatherforecast.model.ListItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
@@ -56,11 +57,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        View view;
         TextView txtHour, txtDay, txtHumidity, txtTemperature, txtRealFeel, txtDroplets;
         ImageView imgDrop;
         ConstraintLayout layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.view = itemView;
             txtHour         = itemView.findViewById(R.id.textView_Hour);
             txtDay          = itemView.findViewById(R.id.textView_Day);
             txtHumidity     = itemView.findViewById(R.id.textView_Humidity);
@@ -75,8 +78,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt("position", getAdapterPosition());
-//                    bundle.putParcelable("data", (Parcelable) items.get(getAdapterPosition()));
+                    bundle.putSerializable("data", (Serializable) items.get(getAdapterPosition()));
                     Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, bundle);
                 }
             });
