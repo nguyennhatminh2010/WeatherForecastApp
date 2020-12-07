@@ -3,9 +3,10 @@ package com.example.weatherforecast.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ListItem {
+public class ListItem implements Serializable {
     @SerializedName("dt")
     @Expose
     private Integer dt;

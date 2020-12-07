@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.example.weatherforecast.databinding.FragmentHomeBinding;
 import com.example.weatherforecast.model.IdApiCall;
 import com.example.weatherforecast.model.ListItem;
+import com.example.weatherforecast.model.SampleApiCall;
+import com.example.weatherforecast.model.SampleDatabase;
 import com.example.weatherforecast.view.ItemAdapter;
+import com.example.weatherforecast.viewmodel.SampleDao;
 import com.example.weatherforecast.viewmodel.WeatherApiService;
 import com.google.gson.Gson;
 
@@ -33,6 +37,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -51,8 +56,12 @@ public class HomeFragment extends Fragment {
     private WeatherApiService apiService;
     private static IdApiCall mIdApiCall;
 
-    double longitude;
-    double latitude;
+    private SampleApiCall sampleApiCall;
+    private SampleDatabase sampleDatabase;
+    private SampleDao sampleDao;
+
+   private double latitude=16.0678;
+    private double longitude=108.2208;
     LocationManager lm;
     Location location;
     private int REQUEST_LOCATION = 1;
@@ -74,7 +83,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        mDispose.dispose();
+        if(mDispose!=null) mDispose.dispose();
         super.onDestroyView();
     }
 
@@ -84,136 +93,95 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        // lay location hien tai
 
-//        if (ActivityCompat.checkSelfPermission(getContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-//                ActivityCompat.checkSelfPermission(getContext(),
-//                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(
-//                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-//                            android.Manifest.permission.ACCESS_FINE_LOCATION},
-//                    REQUEST_LOCATION);
-//        } else {
-//            Log.e("DB", "PERMISSION GRANTED");
-//        }
-//        lm = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-//        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//        longitude = location.getLongitude();
-//        latitude = location.getLatitude();
-//        for (int i = 0; i < 20; i++) {
-//            Log.e("VI DO = ", longitude + "");
-//            Log.e("BIEN DO = ", latitude + "");
-//        }
-//            final LocationListener locationListener = new LocationListener() {
-//                public void onLocationChanged(Location location) {
-//                    longitude = location.getLongitude();
-//                    latitude = location.getLatitude();
-//                }
-//            };
-//
-//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
 
-//        ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
-        mIdApiCall = new IdApiCall();
-        apiService = new WeatherApiService();
-        mDispose = apiService.getAPI()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<IdApiCall>() {
-                    @Override
-                    public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull IdApiCall idApiCall) {
-                        //mIdApiCall la toan bo thong tin lay ve tu API
-                        mIdApiCall = idApiCall;
-                        binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                        itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
-                        onCreateHeadFragment();
-                        binding.rvHours.setHasFixedSize(true);
-                        binding.rvHours.setAdapter(itemAdapter);
-                        itemAdapter.notifyDataSetChanged();
-                    }
+                mIdApiCall = new IdApiCall();
+                apiService = new WeatherApiService();
+                sampleDatabase = SampleDatabase.getInstance(getActivity());
+                sampleDao = sampleDatabase.sampleDao();
+                List<SampleApiCall> sampleApiCalls = sampleDao.getAllSampleApiCall();
 
-                    @Override
-                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-                        if (e instanceof HttpException) {
-                            Log.e("Error", ((HttpException) e).message());
-                        } else if (e instanceof IOException) {
-                            Log.e("Error", e.toString());
-                        } else {
-                            Log.e("Error", e.toString());
+                boolean check = false;//Check : co can phai lay data moi tu api hay khong
+                Time today = new Time(Time.getCurrentTimezone());
+                today.setToNow();
+                //Nhan du lieu tu database
+                if (sampleApiCalls.size() == 0)
+                    check = true;
+                else {
+                    mIdApiCall = sampleApiCalls.get(sampleApiCalls.size() - 1).getIdApiCall();
+
+                    //so sanh
+                    if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(0, 4).equals(today.year + ""))
+                            check = true;
+                    else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
+                            check = true;
+                    else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
+                            check = true;
+                    Log.e("Date : ", today.year + "-" + (today.month + 1) + "-" + today.monthDay + "-" + check);
+                }
+                if (check) {
+                    mDispose = apiService.getAPI(latitude, longitude)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<IdApiCall>() {
+                                @Override
+                                public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull IdApiCall idApiCall) {
+                                    //mIdApiCall la toan bo thong tin lay ve tu API
+                                    mIdApiCall = idApiCall;
+
+                                    AsyncTask.execute(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            sampleDao.insertSampleApiCall(new SampleApiCall(mIdApiCall));
+                                        }
+                                    });
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                                            onCreateHeadFragment();
+                                            binding.rvHours.setHasFixedSize(true);
+                                            binding.rvHours.setAdapter(itemAdapter);
+                                            itemAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                                    if (e instanceof HttpException) {
+                                        Log.e("Error", ((HttpException) e).message());
+                                    } else if (e instanceof IOException) {
+                                        Log.e("Error", e.toString());
+                                    } else {
+                                        Log.e("Error", e.toString());
+                                    }
+                                }
+                            });
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                            onCreateHeadFragment();
+                            binding.rvHours.setHasFixedSize(true);
+                            binding.rvHours.setAdapter(itemAdapter);
+                            itemAdapter.notifyDataSetChanged();
                         }
-                    }
-                });
-
-//        ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
-
-//        //De nghi tai` dung FragmentBinding
-//        //ta da tao FragmentBinding binding o tren
-//        items = new ArrayList<ItemRow>();
-//        itemAdapter = new ItemAdapter(items,getActivity());
-//        //khoi tao gia tri thi de phia ngoai AsyncTask
-//        //Tim gia tri thi tim trong AsyncTask
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                mIdApiCall = new IdApiCall();
-//                apiService = new WeatherApiService();
-//                apiService.getAPI()
-//                        .subscribeOn(Schedulers.newThread())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeWith(new DisposableSingleObserver<IdApiCall>() {
-//                            @Override
-//                            public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull IdApiCall idApiCall) {
-//                                //mIdApiCall la toan bo thong tin lay ve tu API
-//                                mIdApiCall = idApiCall;
-//                                for(int i = 0;i<mIdApiCall.getCnt();i++){
-//                                    ItemRow nitem = new ItemRow(mIdApiCall.getListItem().get(i).getDtTxt().substring(0,mIdApiCall.getListItem().get(i).getDtTxt().indexOf(" ")),
-//                                            mIdApiCall.getListItem().get(i).getDtTxt().substring(mIdApiCall.getListItem().get(i).getDtTxt().indexOf(" "),mIdApiCall.getListItem().get(i).getDtTxt().length()),
-//                                            mIdApiCall.getListItem().get(i).getMain().getHumidity()+"",
-//                                            mIdApiCall.getListItem().get(i).getMain().getTemp()+"",
-//                                            mIdApiCall.getListItem().get(i).getMain().getPressure()+"",
-//                                            mIdApiCall.getListItem().get(i).getRain().get3h()+"",
-//                                            mIdApiCall.getListItem().get(i).getVisibility());
-//                                    items.add(nitem);
-//                                }
-//
-//                                //Moi chinh sua lien quan toi xml dung trong nay
-//                                getActivity().runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//
-//                                        binding.rvHours.setAdapter(itemAdapter);
-//                                        binding.rvHours.setHasFixedSize(true);
-//                                        binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(),1));
-//                                        onCreateHeadFragment();
-//                                        //setupAnim();
-//                                    }
-//                                });
-//
-//
-//                            }
-//
-//                            @Override
-//                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-//                                if (e instanceof HttpException) {
-//                                    Log.e("Error", ((HttpException) e).message());
-//                                }
-//                                else if (e instanceof IOException) {
-//                                    Log.e("Error",e.toString());
-//                                }
-//                                else {
-//                                    Log.e("Error",e.toString());
-//                                }
-//                            }
-//                        });
-//
-//
-//            }
-//        });
+                    });
+                }
+            }
+        });
 
         return view;
-
     }
 
     @Override

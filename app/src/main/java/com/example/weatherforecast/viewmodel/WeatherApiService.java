@@ -19,7 +19,7 @@ public class WeatherApiService {
                 .build()
                 .create(WeatherApi.class);
     }
-    public Single<IdApiCall> getAPI(){
-        return api.getAPI();
+    public Single<IdApiCall> getAPI(double lat, double lon){
+        return api.getAPI(lat,lon);
     }
 }
