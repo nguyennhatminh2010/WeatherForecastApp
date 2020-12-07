@@ -108,18 +108,20 @@ public class HomeFragment extends Fragment {
                 Time today = new Time(Time.getCurrentTimezone());
                 today.setToNow();
                 //Nhan du lieu tu database
-                if (sampleApiCalls.size() > 0)
+                if (sampleApiCalls.size() == 0)
+                    check = true;
+                else {
                     mIdApiCall = sampleApiCalls.get(sampleApiCalls.size() - 1).getIdApiCall();
-                else check = true;
 
-                //so sanh
-                if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(0, 4).equals(today.year + ""))
-                    check = true;
-                else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
-                    check = true;
-                else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(8, 10).equals(today.monthDay<10?("0" + today.monthDay) : (today.monthDay + "")))
-                    check = true;
-                Log.e("Date : ", today.year + "-" + (today.month + 1) + "-" + today.monthDay + "-" + check);
+                    //so sanh
+                    if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(0, 4).equals(today.year + ""))
+                            check = true;
+                    else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
+                            check = true;
+                    else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
+                            check = true;
+                    Log.e("Date : ", today.year + "-" + (today.month + 1) + "-" + today.monthDay + "-" + check);
+                }
                 if (check) {
                     mDispose = apiService.getAPI(latitude, longitude)
                             .subscribeOn(Schedulers.newThread())
