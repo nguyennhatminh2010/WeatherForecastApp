@@ -203,12 +203,12 @@ public class HomeFragment extends Fragment {
         switch (mIdApiCall.getListItem().get(0).getWeather().get(0).getMain()) {
             case "Snow": {
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_snowy);
-                binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");
+                binding.textView.setText("Trời đã đổ tuyết, sao em chưa đổ anh?");
                 break;
             }
             case "Rain": {
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
-                binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");
+                binding.textView.setText("Thích thì mang ô, không thích thì mang ô");
                 break;
             }
             case "Sunny": {
@@ -216,9 +216,29 @@ public class HomeFragment extends Fragment {
                 binding.textView.setText("Trời nắng đấy ra đường nhớ mang nón nhé");
                 break;
             }
+            case "Clear":{
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_clear);
+                binding.textView.setText("Trời mây xanh, nắng lung linh");
+                break;
+            }
+            case "Thunderstorm":{
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_rain);
+                binding.textView.setText("Thời tiết xấu, cần ra ngoài thì nhớ mang ô theo nhé");
+                break;
+            }
+            case "Drizzle":{
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
+                binding.textView.setText("Mưa lất phất, lòng não nề");
+                break;
+            }
+            case "Clouds":{
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_cloud);
+                binding.textView.setText("Mây mù giăng lối…đường vào tim em");
+                break;
+            }
             default:
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_weather);
-                binding.textView.setText("Trời nắng đấy ra đường nhớ mang nón nhé");
+                binding.textView.setText("Trời đong đầy gió, tim đầy yêu thương");
         }
     }
 
