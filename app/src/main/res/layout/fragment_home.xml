@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    android:fontFamily="Roboto"
     tools:context=".HomeFragment">
 
 
@@ -15,6 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="cursive"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="16sp"
@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@android:color/white"
@@ -106,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="@id/icon_up"
         app:layout_constraintStart_toEndOf="@id/icon_up"
         app:layout_constraintTop_toTopOf="@id/icon_up"
-        tools:text="28" />
+        tools:text="28°" />
 
     <ImageView
         android:id="@+id/icon_down"
@@ -124,6 +125,7 @@
         android:id="@+id/temperature_down_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
         android:layout_marginEnd="20dp"
         android:textColor="@android:color/white"
         android:textSize="30sp"
@@ -131,13 +133,14 @@
         app:layout_constraintBottom_toBottomOf="@id/icon_down"
         app:layout_constraintEnd_toEndOf="@id/icon_status_image_view"
         app:layout_constraintTop_toTopOf="@id/icon_down"
-        tools:text="28" />
+        tools:text="28°" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="serif"
         android:gravity="center"
         android:text="@string/weather_to_day"
         android:textColor="@android:color/white"
@@ -156,30 +159,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView" />
-
-    <TextView
-        android:id="@+id/textView_Temp2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="236dp"
-        android:text="°"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/temperature_down_text_view"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/textView_Temp1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="236dp"
-        android:text="°"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
