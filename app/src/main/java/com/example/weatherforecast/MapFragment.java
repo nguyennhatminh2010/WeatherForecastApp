@@ -103,7 +103,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(mIdApiCall.getListItem().get(0).getWeather().get(0).getMain().equals("Rain")) markerOptions.get(vitri).icon(bitmapDescriptorFromVector(getActivity(),R.drawable.ic_rain));
+                                    if(mIdApiCall.getListItem().get(0).getWeather().get(0).getMain().equals("Rain")) markerOptions.get(vitri).icon(bitmapDescriptorFromVector(getActivity(),R.drawable.ic_rainy));
                                     else if(mIdApiCall.getListItem().get(0).getWeather().get(0).getMain().equals("Clouds")) markerOptions.get(vitri).icon(bitmapDescriptorFromVector(getActivity(),R.drawable.ic_weather));
                                     else markerOptions.get(vitri).icon(bitmapDescriptorFromVector(getActivity(),R.drawable.ic_sun));
                                     gMap.addMarker(markerOptions.get(vitri));
