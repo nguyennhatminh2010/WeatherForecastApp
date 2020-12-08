@@ -21,6 +21,8 @@ import com.example.weatherforecast.R;
 import com.example.weatherforecast.model.ListItem;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,13 +31,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     ArrayList<ListItem> copyItems = new ArrayList<ListItem>();
     Context context;
     private int fromIndex = 0;
-    private int toIndex = 0;
+    private int dateStart = 0;
 
-    public ItemAdapter(ArrayList<ListItem> items, int fromIndex, int toIndex, Context context) {
+    public ItemAdapter(ArrayList<ListItem> items, int dateStart, Context context) {
         this.items = items;
         this.context = context;
-        this.fromIndex = fromIndex;
-        this.toIndex = toIndex;
+        this.dateStart = dateStart;
     }
 
     @NonNull
@@ -48,14 +49,27 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Date today = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (ListItem item : items) {
+            try {
+                Log.e("xxxxxxxxxxxxxxxxxxxxx", dateStart + "---" + formatter.parse(item.getDtTxt()).getDate());
+                if (dateStart == formatter.parse(item.getDtTxt()).getDate()) {
+                    fromIndex = items.indexOf(item);
+                }
+                break;
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         Log.e("length: ", items.size() + "");
-        for (int i = fromIndex; i < toIndex; i++) {
+        Log.e("Spile","from: " + fromIndex);
+        this.copyItems.clear();
+        for (int i = fromIndex; i < items.size(); i++) {
             this.copyItems.add(this.items.get(i));
         }
         Log.e("lengthhh: ", copyItems.size() + "");
-        Log.e("todayyy: ", today.getDate() + "");
 
         ListItem item = items.get(position);
         String day = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(8,10).concat("/");

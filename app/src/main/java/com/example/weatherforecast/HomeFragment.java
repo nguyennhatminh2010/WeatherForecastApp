@@ -78,7 +78,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemAdapter = new ItemAdapter(new ArrayList<>(), 0, 8, getContext());
+        Date today = new Date(System.currentTimeMillis());
+        itemAdapter = new ItemAdapter(new ArrayList<>(), today.getDate(), getContext());
     }
 
     @Override
@@ -143,8 +144,10 @@ public class HomeFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            Date today = new Date(System.currentTimeMillis());
+
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),0,8, getActivity());
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate(), getActivity());
                                             onCreateHeadFragment();
                                             binding.rvHours.setHasFixedSize(true);
                                             binding.rvHours.setAdapter(itemAdapter);
@@ -169,8 +172,10 @@ public class HomeFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Date today = new Date(System.currentTimeMillis());
+
                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),0,8, getActivity());
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate(), getActivity());
                             onCreateHeadFragment();
                             binding.rvHours.setHasFixedSize(true);
                             binding.rvHours.setAdapter(itemAdapter);

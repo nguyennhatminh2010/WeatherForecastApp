@@ -7,16 +7,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.weatherforecast.view.ViewPagerAdapter;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +23,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -36,19 +32,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private GoogleMap gMap;
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
-        mTabLayout = findViewById(R.id.tab_layout);
-        mViewPager = findViewById(R.id.view_pager);
+
 
         //Toolbar
+        toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.container_fragment);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -60,21 +52,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,
-                    new HomeFragment()).commit();
-
-            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-            mViewPager.setAdapter(viewPagerAdapter);
-            mTabLayout.setupWithViewPager(mViewPager);
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host,
+                    new ContainerFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_details);
         }
-
-
-//        onNavigationItemSelected(navigationView.getMenu().getItem(0));
-
-        // view page
-
 
     }
 
@@ -83,16 +64,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_details:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,
-                        new HomeFragment()).commit();
-
-                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-                mViewPager.setAdapter(viewPagerAdapter);
-                mTabLayout.setupWithViewPager(mViewPager);
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host,
+                        new ContainerFragment()).commit();
                 break;
             case R.id.nav_map:
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_host,
                         new MapFragment()).commit();
+//                SupportMapFragment supportMapFragment = (SupportMapFragment)
+//                        getSupportFragmentManager().findFragmentById(R.id.fragment);
+//                supportMapFragment.getMapAsync( this);
                 break;
 
         }

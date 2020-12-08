@@ -78,7 +78,8 @@ public class SecondFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemAdapter = new ItemAdapter(new ArrayList<>(),8,16, getContext());
+        Date today = new Date(System.currentTimeMillis());
+        itemAdapter = new ItemAdapter(new ArrayList<>(), today.getDate() + 1, getContext());
     }
 
     @Override
@@ -114,11 +115,11 @@ public class SecondFragment extends Fragment {
                     mIdApiCall = sampleApiCalls.get(sampleApiCalls.size() - 1).getIdApiCall();
 
                     //so sanh
-                    if (!mIdApiCall.getListItem().get(8).getDtTxt().substring(0, 4).equals(today.year + ""))
+                    if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(0, 4).equals(today.year + ""))
                         check = true;
-                    else if (!mIdApiCall.getListItem().get(8).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
+                    else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
                         check = true;
-                    else if (!mIdApiCall.getListItem().get(8).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
+                    else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
                         check = true;
                     Log.e("Date : ", today.year + "-" + (today.month + 1) + "-" + today.monthDay + "-" + check);
                 }
@@ -143,8 +144,10 @@ public class SecondFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            Date today = new Date(System.currentTimeMillis());
+
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),8,16, getActivity());
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate() + 1, getActivity());
                                             onCreateHeadFragment();
                                             binding.rvHours.setHasFixedSize(true);
                                             binding.rvHours.setAdapter(itemAdapter);
@@ -169,8 +172,10 @@ public class SecondFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Date today = new Date(System.currentTimeMillis());
+
                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),8,16, getActivity());
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate() + 1, getActivity());
                             onCreateHeadFragment();
                             binding.rvHours.setHasFixedSize(true);
                             binding.rvHours.setAdapter(itemAdapter);
