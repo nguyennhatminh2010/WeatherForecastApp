@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_home"
@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/time_text_view"
+        android:layout_marginTop="10dp"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -41,96 +42,120 @@
         app:layout_constraintTop_toTopOf="@+id/time_text_view"
         tools:text="Nắng Nhẹ" />
 
-    <TextView
-        android:id="@+id/temperature_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:gravity="end"
-        android:textColor="@android:color/white"
-        android:textSize="75sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/unit_text_view"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="28" />
-
-    <TextView
-        android:id="@+id/unit_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="108dp"
-        android:text="℃"
-        android:textColor="@android:color/white"
-        android:textSize="70sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status_text_view" />
-
     <ImageView
         android:id="@+id/icon_status_image_view"
-        android:layout_width="122dp"
+        android:layout_width="match_parent"
         android:layout_height="129dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="30dp"
         android:src="@drawable/ic_sun"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/status_text_view"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@android:color/white"
         tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/icon_up"
-        android:layout_width="25dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="12dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_baseline_arrow_upward_24"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/temperature_up_text_view"
-        app:tint="@android:color/white"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/temperature_up_text_view"
-        android:layout_width="38dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="24dp"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperature_text_view"
-        tools:text="28" />
-
-    <ImageView
-        android:id="@+id/icon_down"
-        android:layout_width="19dp"
-        android:layout_height="39dp"
-        android:layout_marginBottom="15dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_baseline_arrow_downward_24"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView_Temp2"
-        app:tint="@android:color/white"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/temperature_down_text_view"
+    <LinearLayout
+        android:id="@+id/ln_layout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginBottom="36dp"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView_Temp1"
-        tools:text="28" />
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        app:layout_constraintEnd_toEndOf="@+id/icon_status_image_view">
+
+        <TextView
+            android:id="@+id/temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@android:color/white"
+            android:textSize="75sp"
+            tools:text="28" />
+
+        <TextView
+            android:id="@+id/unit_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textColor="@android:color/white"
+            android:textSize="70sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ln_layout3"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/ln_layout2">
+
+        <ImageView
+            android:id="@+id/icon_up"
+            android:layout_width="25dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_arrow_upward_24"
+            app:tint="@android:color/white"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/temperature_up_text_view"
+            android:layout_width="38dp"
+            android:layout_height="43dp"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@id/icon_up"
+            tools:text="28" />
+
+        <TextView
+            android:id="@+id/textView_Temp2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="°"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/temperature_up_text_view"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/icon_down"
+            android:layout_width="19dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_baseline_arrow_downward_24"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView_Temp2"
+            app:tint="@android:color/white"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/temperature_down_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@+id/icon_down"
+            tools:text="28" />
+
+        <TextView
+            android:id="@+id/textView_Temp1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="°"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="@+id/temperature_down_text_view"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -142,41 +167,15 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/rv_hours"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_hours"
-        android:layout_width="396dp"
-        android:layout_height="302dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView_Temp2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="°"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/temperature_down_text_view"
-        tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/textView_Temp1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginBottom="16dp"
-        android:text="°"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/temperature_up_text_view"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
