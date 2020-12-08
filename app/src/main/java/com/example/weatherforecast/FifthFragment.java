@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -196,8 +197,13 @@ public class FifthFragment extends Fragment {
     }
 
     private void onCreateHeadFragment() {
+        Date dt = new Date(System.currentTimeMillis());
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 4);
+        dt = c.getTime();
         DateFormat dateFormat = new SimpleDateFormat("E, HH:mm dd/MM/yyyy", new Locale("vi"));
-        binding.timeTextView.setText(dateFormat.format(new Date(System.currentTimeMillis())));
+        binding.timeTextView.setText(dateFormat.format(dt));
         binding.statusTextView.setText(mIdApiCall.getListItem().get(32).getWeather().get(0).getDescription());
         double nhietdo = mIdApiCall.getListItem().get(32).getMain().getTemp() - 273.15;
         binding.temperatureTextView.setText((int) nhietdo + "");
