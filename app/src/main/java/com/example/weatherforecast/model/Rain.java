@@ -9,6 +9,9 @@ public class Rain {
     private Double _3h;
 
     public Double get3h() {
+//        if (Double.isNaN(_3h)) {
+//            return 0.0;
+//        }
         return _3h;
     }
 

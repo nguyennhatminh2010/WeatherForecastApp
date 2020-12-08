@@ -9,7 +9,7 @@
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
     android:fontFamily="Roboto"
-    android:id="@+id/item_layout">
+    android:id="@+id/item_layout" >
 
     <TextView
         android:id="@+id/textView_TempFeel"
