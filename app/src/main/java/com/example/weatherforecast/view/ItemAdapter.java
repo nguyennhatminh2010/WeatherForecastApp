@@ -1,5 +1,6 @@
 package com.example.weatherforecast.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,22 +12,30 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.ActivityNavigator;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weatherforecast.MainActivity;
 import com.example.weatherforecast.R;
 import com.example.weatherforecast.model.ListItem;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-    ArrayList<ListItem> items;
+    ArrayList<ListItem> items = new ArrayList<ListItem>();
+    ArrayList<ListItem> copyItems = new ArrayList<ListItem>();
     Context context;
+    private int fromIndex = 0;
+    private int toIndex = 0;
 
-    public ItemAdapter(ArrayList<ListItem> items, Context context) {
+    public ItemAdapter(ArrayList<ListItem> items, int fromIndex, int toIndex, Context context) {
         this.items = items;
         this.context = context;
+        this.fromIndex = fromIndex;
+        this.toIndex = toIndex;
     }
 
     @NonNull
@@ -39,6 +48,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Date today = new Date(System.currentTimeMillis());
+
+        Log.e("length: ", items.size() + "");
+        for (int i = fromIndex; i < toIndex; i++) {
+            this.copyItems.add(this.items.get(i));
+        }
+        Log.e("lengthhh: ", copyItems.size() + "");
+        Log.e("todayyy: ", today.getDate() + "");
+
         ListItem item = items.get(position);
         String day = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(8,10).concat("/");
         String month = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(5,7);
@@ -53,7 +71,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return 8;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -78,7 +96,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("data", (Serializable) items.get(getAdapterPosition()));
+                    bundle.putSerializable("data", (Serializable) copyItems.get(getAdapterPosition()));
                     Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_detailFragment, bundle);
                 }
             });

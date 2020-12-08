@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemAdapter = new ItemAdapter(new ArrayList<>(), getContext());
+        itemAdapter = new ItemAdapter(new ArrayList<>(), 0, 8, getContext());
     }
 
     @Override
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),0,8, getActivity());
                                             onCreateHeadFragment();
                                             binding.rvHours.setHasFixedSize(true);
                                             binding.rvHours.setAdapter(itemAdapter);
@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void run() {
                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),0,8, getActivity());
                             onCreateHeadFragment();
                             binding.rvHours.setHasFixedSize(true);
                             binding.rvHours.setAdapter(itemAdapter);

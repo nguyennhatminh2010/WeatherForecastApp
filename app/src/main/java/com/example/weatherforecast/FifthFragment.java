@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.weatherforecast.databinding.FragmentHomeBinding;
 import com.example.weatherforecast.model.IdApiCall;
+import com.example.weatherforecast.model.ListItem;
 import com.example.weatherforecast.model.SampleApiCall;
 import com.example.weatherforecast.model.SampleDatabase;
 import com.example.weatherforecast.view.ItemAdapter;
@@ -77,7 +78,7 @@ public class FifthFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemAdapter = new ItemAdapter(new ArrayList<>(), getContext());
+        itemAdapter = new ItemAdapter(new ArrayList<>(),16,24, getContext());
     }
 
     @Override
@@ -113,11 +114,11 @@ public class FifthFragment extends Fragment {
                     mIdApiCall = sampleApiCalls.get(sampleApiCalls.size() - 1).getIdApiCall();
 
                     //so sanh
-                    if (!mIdApiCall.getListItem().get(8).getDtTxt().substring(0, 4).equals(today.year + ""))
+                    if (!mIdApiCall.getListItem().get(32).getDtTxt().substring(0, 4).equals(today.year + ""))
                         check = true;
-                    else if (!mIdApiCall.getListItem().get(8).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
+                    else if (!mIdApiCall.getListItem().get(32).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
                         check = true;
-                    else if (!mIdApiCall.getListItem().get(8).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
+                    else if (!mIdApiCall.getListItem().get(32).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
                         check = true;
                     Log.e("Date : ", today.year + "-" + (today.month + 1) + "-" + today.monthDay + "-" + check);
                 }
@@ -143,7 +144,7 @@ public class FifthFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),16,24, getActivity());
                                             onCreateHeadFragment();
                                             binding.rvHours.setHasFixedSize(true);
                                             binding.rvHours.setAdapter(itemAdapter);
@@ -169,7 +170,7 @@ public class FifthFragment extends Fragment {
                         @Override
                         public void run() {
                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),16,24, getActivity());
                             onCreateHeadFragment();
                             binding.rvHours.setHasFixedSize(true);
                             binding.rvHours.setAdapter(itemAdapter);
@@ -192,14 +193,14 @@ public class FifthFragment extends Fragment {
     private void onCreateHeadFragment() {
         DateFormat dateFormat = new SimpleDateFormat("E, HH:mm dd/MM/yyyy", new Locale("vi"));
         binding.timeTextView.setText(dateFormat.format(new Date(System.currentTimeMillis())));
-        binding.statusTextView.setText(mIdApiCall.getListItem().get(8).getWeather().get(0).getDescription());
-        double nhietdo = mIdApiCall.getListItem().get(8).getMain().getTemp() - 273.15;
+        binding.statusTextView.setText(mIdApiCall.getListItem().get(32).getWeather().get(0).getDescription());
+        double nhietdo = mIdApiCall.getListItem().get(32).getMain().getTemp() - 273.15;
         binding.temperatureTextView.setText((int) nhietdo + "");
-        double nhietdoMax = mIdApiCall.getListItem().get(8).getMain().getTempMax() - 273.15;
+        double nhietdoMax = mIdApiCall.getListItem().get(32).getMain().getTempMax() - 273.15;
         binding.temperatureUpTextView.setText((int) nhietdoMax + "");
-        double nhietdoMin = mIdApiCall.getListItem().get(8).getMain().getTempMin() - 273.15;
+        double nhietdoMin = mIdApiCall.getListItem().get(32).getMain().getTempMin() - 273.15;
         binding.temperatureDownTextView.setText((int) nhietdoMin + "");
-        switch (mIdApiCall.getListItem().get(8).getWeather().get(0).getMain()) {
+        switch (mIdApiCall.getListItem().get(32).getWeather().get(0).getMain()) {
             case "Snow": {
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_snowy);
                 binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");

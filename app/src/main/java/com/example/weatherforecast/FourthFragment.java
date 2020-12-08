@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.weatherforecast.databinding.FragmentHomeBinding;
 import com.example.weatherforecast.model.IdApiCall;
+import com.example.weatherforecast.model.ListItem;
 import com.example.weatherforecast.model.SampleApiCall;
 import com.example.weatherforecast.model.SampleDatabase;
 import com.example.weatherforecast.view.ItemAdapter;
@@ -77,7 +78,7 @@ public class FourthFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemAdapter = new ItemAdapter(new ArrayList<>(), getContext());
+        itemAdapter = new ItemAdapter(new ArrayList<>(),16,24, getContext());
     }
 
     @Override
@@ -143,7 +144,7 @@ public class FourthFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),16,24, getActivity());
                                             onCreateHeadFragment();
                                             binding.rvHours.setHasFixedSize(true);
                                             binding.rvHours.setAdapter(itemAdapter);
@@ -169,7 +170,7 @@ public class FourthFragment extends Fragment {
                         @Override
                         public void run() {
                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), getActivity());
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),16,24, getActivity());
                             onCreateHeadFragment();
                             binding.rvHours.setHasFixedSize(true);
                             binding.rvHours.setAdapter(itemAdapter);

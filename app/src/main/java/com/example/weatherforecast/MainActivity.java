@@ -62,13 +62,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,
                     new HomeFragment()).commit();
+
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+            mViewPager.setAdapter(viewPagerAdapter);
+            mTabLayout.setupWithViewPager(mViewPager);
+
             navigationView.setCheckedItem(R.id.nav_details);
         }
 
+
+//        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+
         // view page
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mViewPager.setAdapter(viewPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+
 
     }
 
@@ -79,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_details:
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,
                         new HomeFragment()).commit();
+
+                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+                mViewPager.setAdapter(viewPagerAdapter);
+                mTabLayout.setupWithViewPager(mViewPager);
                 break;
             case R.id.nav_map:
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,

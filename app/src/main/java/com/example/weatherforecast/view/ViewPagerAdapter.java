@@ -61,7 +61,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         Calendar c = Calendar.getInstance();
         c.setTime(dt);
 
-        Log.e("Date: ", dt + "");
         Log.e("Date: ", dt.getDate() + "/" + dt.getMonth());
 
         String title = "";
