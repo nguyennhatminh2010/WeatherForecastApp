@@ -113,8 +113,9 @@ public class HomeFragment extends Fragment {
                 if (sampleApiCalls.size() == 0)
                     check = true;
                 else {
+//                    Log.e("Size of sample : ",sampleApiCalls.size() + "");
                     mIdApiCall = sampleApiCalls.get(sampleApiCalls.size() - 1).getIdApiCall();
-
+//                    Log.e("Size of mIdApiCall : ", mIdApiCall.getListItem().size() + "");
                     //so sanh
                     if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(0, 4).equals(today.year + ""))
                             check = true;
@@ -145,6 +146,7 @@ public class HomeFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+
                                             Date today = new Date(System.currentTimeMillis());
 
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
@@ -169,21 +171,29 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                             });
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
+                }
+                else {
+                    AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {
-                            Date today = new Date(System.currentTimeMillis());
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
 
-                            binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate(), getActivity());
-                            onCreateHeadFragment();
-                            binding.rvHours.setHasFixedSize(true);
-                            binding.rvHours.setAdapter(itemAdapter);
-                            itemAdapter.notifyDataSetChanged();
+                                    Date today = new Date(System.currentTimeMillis());
+
+                                    binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+                                    itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), today.getDate(), getActivity());
+                                    onCreateHeadFragment();
+                                    binding.rvHours.setHasFixedSize(true);
+                                    binding.rvHours.setAdapter(itemAdapter);
+                                    itemAdapter.notifyDataSetChanged();
+                                }
+                            });
                         }
                     });
                 }
+
             }
         });
 
@@ -199,6 +209,7 @@ public class HomeFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void onCreateHeadFragment() {
         DateFormat dateFormat = new SimpleDateFormat("E, HH:mm dd/MM/yyyy", new Locale("vi"));
+//        Log.e("Size ofmIdApiCalllate: ", mIdApiCall.getListItem().size() + "");
         binding.timeTextView.setText(dateFormat.format(new Date(System.currentTimeMillis())));
         binding.statusTextView.setText(mIdApiCall.getListItem().get(0).getWeather().get(0).getDescription().toUpperCase());
         double nhietdo = mIdApiCall.getListItem().get(0).getMain().getTemp() - 273.15;
