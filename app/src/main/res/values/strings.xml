@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherForecast</string>
+    <string name="app_name">WFC</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="map_key" translatable="false">AIzaSyD7RVx6PKc-y935wSbWocs9okd8kKEimng</string>

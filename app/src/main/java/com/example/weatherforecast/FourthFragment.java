@@ -2,13 +2,17 @@ package com.example.weatherforecast;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.weatherforecast.databinding.FragmentHomeBinding;
 import com.example.weatherforecast.model.IdApiCall;
@@ -31,12 +29,12 @@ import com.example.weatherforecast.model.SampleDatabase;
 import com.example.weatherforecast.view.ItemAdapter;
 import com.example.weatherforecast.viewmodel.SampleDao;
 import com.example.weatherforecast.viewmodel.WeatherApiService;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -47,9 +45,7 @@ import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.HttpException;
 
-
-public class HomeFragment extends Fragment {
-
+public class FourthFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
@@ -61,26 +57,30 @@ public class HomeFragment extends Fragment {
     private SampleDatabase sampleDatabase;
     private SampleDao sampleDao;
 
-   private double latitude=16.0678;
+    private double latitude=16.0678;
     private double longitude=108.2208;
     LocationManager lm;
     Location location;
     private int REQUEST_LOCATION = 1;
     private Disposable mDispose;
 
-    public HomeFragment() {
+    public FourthFragment() {
         super(R.layout.fragment_home);
     }
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    // TODO: Rename and change types and number of parameters
+    public static FourthFragment newInstance(String param1, String param2) {
+        FourthFragment fragment = new FourthFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Date today = new Date(System.currentTimeMillis());
-        itemAdapter = new ItemAdapter(new ArrayList<>(), today.getDate(), getContext());
+        itemAdapter = new ItemAdapter(new ArrayList<>(), today.getDate() + 1, getContext());
     }
 
     @Override
@@ -113,16 +113,15 @@ public class HomeFragment extends Fragment {
                 if (sampleApiCalls.size() == 0)
                     check = true;
                 else {
-//                    Log.e("Size of sample : ",sampleApiCalls.size() + "");
                     mIdApiCall = sampleApiCalls.get(sampleApiCalls.size() - 1).getIdApiCall();
-//                    Log.e("Size of mIdApiCall : ", mIdApiCall.getListItem().size() + "");
+
                     //so sanh
                     if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(0, 4).equals(today.year + ""))
-                            check = true;
+                        check = true;
                     else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(5, 7).equals((today.month + 1) + ""))
-                            check = true;
+                        check = true;
                     else if (!mIdApiCall.getListItem().get(0).getDtTxt().substring(8, 10).equals(today.monthDay < 10 ? ("0" + today.monthDay) : (today.monthDay + "")))
-                            check = true;
+                        check = true;
                     Log.e("Date : ", today.year + "-" + (today.month + 1) + "-" + today.monthDay + "-" + check);
                 }
                 if (check) {
@@ -146,11 +145,10 @@ public class HomeFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-
                                             Date today = new Date(System.currentTimeMillis());
 
                                             binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate(), getActivity());
+                                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate() + 1, getActivity());
                                             onCreateHeadFragment();
                                             binding.rvHours.setHasFixedSize(true);
                                             binding.rvHours.setAdapter(itemAdapter);
@@ -171,29 +169,20 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                             });
-                }
-                else {
-                    AsyncTask.execute(new Runnable() {
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    Date today = new Date(System.currentTimeMillis());
-
-                                    binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-                                    itemAdapter = new ItemAdapter(mIdApiCall.getListItem(), today.getDate(), getActivity());
-                                    onCreateHeadFragment();
-                                    binding.rvHours.setHasFixedSize(true);
-                                    binding.rvHours.setAdapter(itemAdapter);
-                                    itemAdapter.notifyDataSetChanged();
-                                }
-                            });
+                            Date today = new Date(System.currentTimeMillis());
+                            binding.rvHours.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+                            itemAdapter = new ItemAdapter(mIdApiCall.getListItem(),today.getDate() +1,getActivity());
+                            onCreateHeadFragment();
+                            binding.rvHours.setHasFixedSize(true);
+                            binding.rvHours.setAdapter(itemAdapter);
+                            itemAdapter.notifyDataSetChanged();
                         }
                     });
                 }
-
             }
         });
 
@@ -206,64 +195,40 @@ public class HomeFragment extends Fragment {
         setupAnim();
     }
 
-    @SuppressLint("SetTextI18n")
     private void onCreateHeadFragment() {
+        Date dt = new Date(System.currentTimeMillis());
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 3);
+        dt = c.getTime();
         DateFormat dateFormat = new SimpleDateFormat("E, HH:mm dd/MM/yyyy", new Locale("vi"));
-//        Log.e("Size ofmIdApiCalllate: ", mIdApiCall.getListItem().size() + "");
-        binding.timeTextView.setText(dateFormat.format(new Date(System.currentTimeMillis())));
-        binding.statusTextView.setText(mIdApiCall.getListItem().get(0).getWeather().get(0).getDescription().toUpperCase());
-        double nhietdo = mIdApiCall.getListItem().get(0).getMain().getTemp() - 273.15;
+        binding.timeTextView.setText(dateFormat.format(dt));
+        binding.statusTextView.setText(mIdApiCall.getListItem().get(24).getWeather().get(0).getDescription());
+        double nhietdo = mIdApiCall.getListItem().get(24).getMain().getTemp() - 273.15;
         binding.temperatureTextView.setText((int) nhietdo + "");
-        double nhietdoMax = mIdApiCall.getListItem().get(0).getMain().getTempMax() - 273.15;
+        double nhietdoMax = mIdApiCall.getListItem().get(24).getMain().getTempMax() - 273.15;
         binding.temperatureUpTextView.setText((int) nhietdoMax + "");
-        double nhietdoMin = mIdApiCall.getListItem().get(0).getMain().getTempMin() - 273.15;
+        double nhietdoMin = mIdApiCall.getListItem().get(24).getMain().getTempMin() - 273.15;
         binding.temperatureDownTextView.setText((int) nhietdoMin + "");
-        switch (mIdApiCall.getListItem().get(0).getWeather().get(0).getMain()) {
+        switch (mIdApiCall.getListItem().get(24).getWeather().get(0).getMain()) {
             case "Snow": {
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_snowy);
-                binding.textView.setText("Trời đã đổ tuyết, sao em chưa đổ anh?");
-                binding.fragmentHome.setBackgroundResource(R.drawable.rainy);
+                binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");
                 break;
             }
             case "Rain": {
-                binding.iconStatusImageView.setImageResource(R.drawable.icon_rain);
-                binding.textView.setText("Thích thì mang ô, không thích thì mang ô");
-                binding.fragmentHome.setBackgroundResource(R.drawable.rainy2);
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
+                binding.textView.setText("Trời mưa đấy ra đường nhớ mang ô nhé");
                 break;
             }
             case "Sunny": {
-                binding.iconStatusImageView.setImageResource(R.drawable.icon_sun);
-                binding.fragmentHome.setBackgroundResource(R.drawable.sunny);
+                binding.iconStatusImageView.setImageResource(R.drawable.ic_sun);
                 binding.textView.setText("Trời nắng đấy ra đường nhớ mang nón nhé");
-                break;
-            }
-            case "Clear":{
-                binding.iconStatusImageView.setImageResource(R.drawable.ic_clear);
-                binding.fragmentHome.setBackgroundResource(R.drawable.clear);
-                binding.textView.setText("Trời mây xanh, nắng lung linh");
-                break;
-            }
-            case "Thunderstorm":{
-                binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
-                binding.fragmentHome.setBackgroundResource(R.drawable.rainy);
-                binding.textView.setText("Thời tiết xấu, cần ra ngoài thì nhớ mang ô theo nhé");
-                break;
-            }
-            case "Drizzle":{
-                binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
-                binding.fragmentHome.setBackgroundResource(R.drawable.rainy);
-                binding.textView.setText("Mưa lất phất, lòng não nề");
-                break;
-            }
-            case "Clouds":{
-                binding.iconStatusImageView.setImageResource(R.drawable.ic_cloud);
-                binding.fragmentHome.setBackgroundResource(R.drawable.clear);
-                binding.textView.setText("Mây mù giăng lối…đường vào tim em");
                 break;
             }
             default:
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_weather);
-                binding.textView.setText("Trời đong đầy gió, tim đầy yêu thương");
+                binding.textView.setText("Trời nắng đấy ra đường nhớ mang nón nhé");
         }
     }
 
@@ -296,26 +261,13 @@ public class HomeFragment extends Fragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-//                    longitude = location.getLongitude();
-//                    latitude = location.getLatitude();
-//                    for(int i = 0; i<20; i++) {
-//                        Log.e("VI DO = ", longitude + "");
-//                        Log.e("BIEN DO = ", latitude + "");
-//                    }
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     Toast.makeText(getActivity(), "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 }

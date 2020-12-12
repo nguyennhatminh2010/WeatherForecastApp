@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg2"
     android:fontFamily="Roboto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".DetailFragment">
 
     <TextView
         android:id="@+id/textview_time"

@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private GoogleMap gMap;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host,
-                    new HomeFragment()).commit();
+                    new ContainerFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_details);
         }
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_details:
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host,
-                        new HomeFragment()).commit();
+                        new ContainerFragment()).commit();
                 break;
             case R.id.nav_map:
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_host,
