@@ -251,7 +251,7 @@ public class HomeFragment extends Fragment {
             }
             case "Drizzle":{
                 binding.iconStatusImageView.setImageResource(R.drawable.ic_rainy);
-                binding.fragmentHome.setBackgroundResource(R.drawable.rainy);
+                binding.fragmentHome.setBackgroundResource(R.drawable.rainy2);
                 binding.textView.setText("Mưa lất phất, lòng não nề");
                 break;
             }

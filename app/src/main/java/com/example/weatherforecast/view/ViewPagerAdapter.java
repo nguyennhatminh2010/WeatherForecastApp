@@ -71,22 +71,22 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 c.add(Calendar.DATE, 1);
                 dt = c.getTime();
-                title = (dt.getDate() + "/" + dt.getMonth());
+                title = (dt.getDate() + "/" + (dt.getMonth()+1));
                 break;
             case 2:
                 c.add(Calendar.DATE, 2);
                 dt = c.getTime();
-                title = (dt.getDate() + "/" + dt.getMonth());
+                title = (dt.getDate() + "/" + (dt.getMonth()+1));
                 break;
             case 3:
                 c.add(Calendar.DATE, 3);
                 dt = c.getTime();
-                title = (dt.getDate() + "/" + dt.getMonth());
+                title = (dt.getDate() + "/" + (dt.getMonth()+1));
                 break;
             case 4:
                 c.add(Calendar.DATE, 4);
                 dt = c.getTime();
-                title = (dt.getDate() + "/" + dt.getMonth());
+                title = (dt.getDate() + "/" + (dt.getMonth()+1));
                 break;
         }
         return title;

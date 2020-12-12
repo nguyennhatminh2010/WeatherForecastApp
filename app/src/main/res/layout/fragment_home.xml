@@ -5,7 +5,7 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rainy"
+    android:background="@drawable/home_wait"
     android:fontFamily="Roboto"
     android:orientation="vertical"
     tools:context=".HomeFragment">
@@ -47,12 +47,11 @@
         android:layout_width="match_parent"
         android:layout_height="129dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_sun"
+        android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="@+id/status_text_view"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/white"
         tools:ignore="ContentDescription" />
 
     <LinearLayout
