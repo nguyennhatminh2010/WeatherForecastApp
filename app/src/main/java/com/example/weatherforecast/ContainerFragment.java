@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.weatherforecast.databinding.FragmentContainerBinding;
-import com.example.weatherforecast.databinding.FragmentHomeBinding;
+import com.example.weatherforecast.topdrawer.HomeFragment;
 import com.example.weatherforecast.view.ViewPagerAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;

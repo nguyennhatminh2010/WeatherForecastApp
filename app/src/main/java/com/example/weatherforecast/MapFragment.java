@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.weatherforecast.model.IdApiCall;
+import com.example.weatherforecast.model.api.IdApiCall;
 import com.example.weatherforecast.viewmodel.WeatherApiService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -123,24 +123,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-
-//        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                //Creating Marker
-//                MarkerOptions markerOptions = new MarkerOptions();
-//                //Set Marker Position
-//                markerOptions.position(latLng);
-//                //Set Latitude And Longtitude on Marker
-//                markerOptions.title(latLng.latitude + " : " +latLng.longitude );
-//                //Clear the Previously Click position
-//                gMap.clear();
-//                //Zoom the Marker
-//                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-//                //Add Marker On Map
-//                gMap.addMarker(markerOptions);
-//            }
-//        });
     }
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);

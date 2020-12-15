@@ -7,21 +7,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.weatherforecast.FifthFragment;
-import com.example.weatherforecast.FourthFragment;
-import com.example.weatherforecast.HomeFragment;
-import com.example.weatherforecast.SecondFragment;
-import com.example.weatherforecast.ThirdFragment;
+import com.example.weatherforecast.topdrawer.FifthFragment;
+import com.example.weatherforecast.topdrawer.FourthFragment;
+import com.example.weatherforecast.topdrawer.HomeFragment;
+import com.example.weatherforecast.topdrawer.SecondFragment;
+import com.example.weatherforecast.topdrawer.ThirdFragment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -8,7 +8,7 @@
     android:background="@drawable/home_wait"
     android:fontFamily="Roboto"
     android:orientation="vertical"
-    tools:context=".HomeFragment">
+    tools:context=".topdrawer.HomeFragment">
 
 
     <TextView

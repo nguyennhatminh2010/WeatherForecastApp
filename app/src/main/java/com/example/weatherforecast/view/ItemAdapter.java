@@ -1,6 +1,5 @@
 package com.example.weatherforecast.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,19 +11,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.ActivityNavigator;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weatherforecast.MainActivity;
 import com.example.weatherforecast.R;
-import com.example.weatherforecast.model.ListItem;
+import com.example.weatherforecast.model.inforapi.ListItem;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     ArrayList<ListItem> items = new ArrayList<ListItem>();
@@ -44,23 +40,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.item_row_homedown,parent,false);
-        return new ViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (ListItem item : items) {
-            try {
-                Log.e("xxxxxxxxxxxxxxxxxxxxx", dateStart + "---" + formatter.parse(item.getDtTxt()).getDate());
-                if (dateStart == formatter.parse(item.getDtTxt()).getDate()) {
-                    fromIndex = items.indexOf(item);
-                }
+            Log.e("xxxxxxxxxxxxxxxxxxxxx", dateStart + "---" + item.getDtTxt().substring(8, 10));
+            if (dateStart == Integer.parseInt(item.getDtTxt().substring(8,10))) {
+                fromIndex = items.indexOf(item);
                 break;
-
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
+
         }
 
         Log.e("length: ", items.size() + "");
@@ -70,8 +56,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             this.copyItems.add(this.items.get(i));
         }
         Log.e("lengthhh: ", copyItems.size() + "");
+        return new ViewHolder(itemView);
+    }
 
-        ListItem item = items.get(position);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+        ListItem item = copyItems.get(position);
         String day = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(8,10).concat("/");
         String month = item.getDtTxt().substring(0,item.getDtTxt().indexOf(" ")).substring(5,7);
         String hour  = item.getDtTxt().substring(item.getDtTxt().indexOf(" ")).substring(0,3).concat("h");
@@ -85,7 +78,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 8;
+        return 10;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

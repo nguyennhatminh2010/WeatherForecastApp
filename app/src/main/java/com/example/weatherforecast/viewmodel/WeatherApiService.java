@@ -1,7 +1,7 @@
 package com.example.weatherforecast.viewmodel;
 
-import com.example.weatherforecast.model.IdApiCall;
-import com.example.weatherforecast.model.WeatherApi;
+import com.example.weatherforecast.model.api.IdApiCall;
+import com.example.weatherforecast.model.api.WeatherApi;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Single;
